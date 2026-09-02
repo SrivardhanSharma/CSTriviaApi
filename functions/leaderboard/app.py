@@ -18,7 +18,7 @@ def lambda_handler(event, context):
         result = table.scan()
         items = result.get("Items", [])
 
-        # Sort by score descending, take top 10
+
         top_players = sorted(items, key=lambda x: x["score"], reverse=True)[:10]
 
         return {
