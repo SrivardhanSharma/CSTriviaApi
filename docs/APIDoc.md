@@ -61,7 +61,6 @@ Content-Type: application/json
 }
 ```
 
-Note: `options` contains the correct answer shuffled in with the incorrect ones — the client has no way to determine which option is correct until it submits a guess.
 
 ## 2) Gameplay Endpoints
 
