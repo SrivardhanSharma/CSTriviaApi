@@ -4,6 +4,8 @@ A serverless full stack trivia quiz application built on AWS. Questions are pull
 
 Built as a hands-on project to learn serverless backend development — Lambda, API Gateway, and DynamoDB — end to end, from infrastructure to a deployed, working frontend.
 
+App URL : https://staging.dp92mouqmau9h.amplifyapp.com
+
 ## Features
 
 - Randomized 10 question rounds randomly pulled from 40 computer science trivia questions
