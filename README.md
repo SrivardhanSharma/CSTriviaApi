@@ -1,23 +1,23 @@
 # CS Trivia Quiz API
 
-A serverless full-stack trivia quiz application built on AWS. Questions are pulled from a live trivia source, served through a REST API, and graded server-side, with a leaderboard that tracks each player's personal best.
+A serverless full stack trivia quiz application built on AWS. Questions are pulled from a live trivia source, served through a REST API, and graded server side, with a leaderboard that tracks each player's personal best.
 
 Built as a hands-on project to learn serverless backend development — Lambda, API Gateway, and DynamoDB — end to end, from infrastructure to a deployed, working frontend.
 
 ## Features
 
-- Randomized 10-question rounds pulled from a pool of 40 computer science trivia questions
-- Server-side answer validation (correct answers are never exposed to the client before grading)
+- Randomized 10 question rounds randomly pulled from 40 computer science trivia questions
+- Server side answer validation
 - Leaderboard that only updates on a new personal best per player
-- Two frontend themes (a "graded worksheet" design and a clean modern SaaS design with light/dark mode)
-- Fully serverless backend — no servers to manage, pay-per-request pricing
+- Two frontend themes 
+- Fully serverless backend 
 
 ## Tech Stack
 
 **Backend:** Python, AWS Lambda, Amazon API Gateway, Amazon DynamoDB, AWS SAM
 **Frontend:** HTML, CSS, vanilla JavaScript
 **External data:** [Open Trivia DB](https://opentdb.com) API
-**Hosting:** AWS Amplify (frontend)
+**Hosting:** AWS Amplify 
 
 ## Project Structure
 
