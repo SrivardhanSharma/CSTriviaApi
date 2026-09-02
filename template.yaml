@@ -1,0 +1,123 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: EdTech Quiz API - Lambda + API Gateway + DynamoDB
+
+Globals:
+  Function:
+    Timeout: 10
+    Runtime: python3.12
+    Environment:
+      Variables:
+        QUESTIONS_TABLE: !Ref QuestionsTable
+        SCORES_TABLE: !Ref ScoresTable
+  Api:
+    Cors:
+      AllowMethods: "'GET,POST,OPTIONS'"
+      AllowHeaders: "'Content-Type'"
+      AllowOrigin: "'*'"
+
+Resources:
+
+  QuestionsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: QuizQuestions
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: question_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: question_id
+          KeyType: HASH
+
+  ScoresTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: QuizScores
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: player_id
+          AttributeType: S
+      KeySchema:
+        - AttributeName: player_id
+          KeyType: HASH
+
+  ImportQuestionsFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/import_questions/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref QuestionsTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /import
+            Method: post
+
+  GetQuizFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/get_quiz/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref QuestionsTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /quiz
+            Method: get
+
+  SubmitAnswerFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/submit_answer/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref QuestionsTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /submit
+            Method: post
+
+  FinishRoundFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/finish_round/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref ScoresTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /finish
+            Method: post
+
+  LeaderboardFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: functions/leaderboard/
+      Handler: app.lambda_handler
+      Policies:
+        - DynamoDBReadPolicy:
+            TableName: !Ref ScoresTable
+      Events:
+        Api:
+          Type: Api
+          Properties:
+            Path: /leaderboard
+            Method: get
+
+Outputs:
+  ApiUrl:
+    Description: Base URL of the API
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"
