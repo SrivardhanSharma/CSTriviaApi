@@ -64,3 +64,4 @@ Then open `webapp/index-modern.html` in a browser (after updating the `API_BASE`
 ## Author
 
 Srivardhan Sharma — [GitHub](https://github.com/SrivardhanSharma) · [LinkedIn](https://www.linkedin.com/in/srivardhan-sharma-933591203/)
+# CSTriviaApi
