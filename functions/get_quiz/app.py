@@ -12,15 +12,12 @@ def lambda_handler(event, context):
         params = (event.get("queryStringParameters") or {})
         limit = int(params.get("limit", 10))
 
-        # Scan the full pool, then randomly sample so each round is different
         result = table.scan()
         items = result.get("Items", [])
         sample_size = min(limit, len(items))
         items = random.sample(items, sample_size) if items else []
 
-        # Build a shuffled "options" list (correct + incorrect answers combined)
-        # so the client can render real multiple choice, without revealing
-        # which option is correct. The actual check happens in /submit.
+ 
         for item in items:
             correct = item.pop("correct_answer", None)
             incorrect = item.pop("incorrect_answers", [])
