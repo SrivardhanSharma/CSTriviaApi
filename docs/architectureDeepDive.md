@@ -59,7 +59,7 @@ Static HTML/CSS/vanilla JavaScript, no build step. Hosted on AWS Amplify Hosting
 
 ## Infrastructure as Code
 
-This project uses **AWS SAM**, not CDK. SAM was chosen for its lower ceremony on a small, fixed-shape project — the entire infrastructure fits legibly in one `template.yaml` file using SAM's serverless-specific shorthand (`AWS::Serverless::Function`, `DynamoDBCrudPolicy`, etc.), without needing a general-purpose programming language to express it.
+This project uses **AWS SAM**. The entire infrastructure fits legibly in one `template.yaml` file using SAM's serverless specific shorthand (`AWS::Serverless::Function`, `DynamoDBCrudPolicy`, etc.), without needing a general-purpose programming language to express it.
 
 ### SAM Template Structure
 `template.yaml` declares, in order:
@@ -78,25 +78,8 @@ This project uses **AWS SAM**, not CDK. SAM was chosen for its lower ceremony on
 ## Security Considerations
 
 - **No authentication** on any endpoint — acceptable for a public demo project, but would need API keys or Cognito auth before handling real user data
-- **Server-side grading** — the correct answer is never sent to the client until after a guess is submitted, preventing trivial cheating by inspecting network responses
+- **Server-side grading** — the correct answer is never sent to the player until after a guess is submitted, preventing trivial cheating by inspecting network responses
 - **IAM least privilege** — each Lambda function only has CRUD access to the specific DynamoDB table(s) it actually uses, not blanket account access
-
-## Scalability
-
-Every component here scales automatically and requires no capacity planning:
-- Lambda scales horizontally per-request with no server provisioning
-- DynamoDB on-demand mode scales read/write throughput automatically with traffic
-- API Gateway handles concurrent connections without configuration
-
-At personal-project traffic levels, this comfortably stays within AWS's free tier.
-
-## Architectural Decisions
-
-### Decision 1: Server-side grading over client-side
-**Why:** A client-side-only quiz can be trivially cheated by reading the page's JavaScript or network responses for the correct answer. Moving grading to `submit_answer` means the correct answer is never exposed to the browser until after a guess is made.
-
-### Decision 2: "Best score" leaderboard over cumulative score
-**Why:** An earlier version added points to a player's score every time they replayed under the same name, meaning someone who played 10 rounds would always outrank a better player who played once. Switching to "only save if it beats your previous best" (via a dedicated `/finish` endpoint) makes the leaderboard reflect skill in a single round, not volume of play.
 
 ### Example: Randomized Question Sampling
 `GetQuizFunction` scans the full question pool and uses `random.sample()` in the Lambda's Python code, rather than relying on DynamoDB's own scan ordering (which is not randomized and can return the same items consistently). This ensures each round feels different even if the same player replays multiple times.
