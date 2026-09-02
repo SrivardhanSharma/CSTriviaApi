@@ -164,6 +164,4 @@ curl -X POST https://your-api-url/Prod/submit \
 - Added CORS headers to all Lambda responses to support browser-based frontend calls
 - Fixed a `Decimal`-to-JSON serialization bug in score-returning endpoints
 
-## Support
 
-This is a personal learning project with no formal support channel. Open an issue on the [GitHub repo](https://github.com/SrivardhanSharma) if you spot a bug.
