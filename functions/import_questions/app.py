@@ -8,7 +8,7 @@ import urllib.request
 dynamodb = boto3.resource("dynamodb")
 table = dynamodb.Table(os.environ["QUESTIONS_TABLE"])
 
-# Open Trivia DB category 18 = "Science: Computers"
+
 OPEN_TRIVIA_URL = "https://opentdb.com/api.php?amount=40&category=18&type=multiple"
 
 
