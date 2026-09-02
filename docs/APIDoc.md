@@ -10,11 +10,10 @@ A REST API backing a trivia quiz app. Handles importing questions from an extern
 https://{api-id}.execute-api.{region}.amazonaws.com/Prod
 ```
 
-The base URL is printed as the `ApiUrl` output after running `sam deploy`.
 
 ## Authentication
 
-None. All endpoints are public with no API key or auth token required, since this is a personal/demo project. See [Security Considerations](architectureDeepDive.md#security-considerations) for the tradeoffs of this decision.
+None. All endpoints are public with no API key or auth token required, since this is a personal project. See [Security Considerations](architectureDeepDive.md#security-considerations) for the tradeoffs of this decision.
 
 ### Headers Required
 
